@@ -30,10 +30,10 @@ def main() -> None:
     hti = Htimage()
     
     hti.from_file(
-        "D:/example.html",
-        "D:/image.png",
-        (1920, 1080),
-        Browsers.CHROME
+        file="D:/index.html",
+        output="D:/image.png",
+        size=(1920, 1080),
+        browser=Browsers.CHROME
     )
 
 if __name__ == '__main__':
@@ -50,10 +50,10 @@ def main() -> None:
     hti = Htimage()
     
     hti.from_url(
-        "https://github.com/Astagnar",
-        "D:/image.png",
-        (1920, 1080),
-        Browsers.CHROME
+        url="https://github.com/Astagnar",
+        output="D:/image.png",
+        size=(1920, 1080),
+        browser=Browsers.CHROME
     )
 
 if __name__ == '__main__':
