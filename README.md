@@ -4,9 +4,11 @@ This library has no dependencies in the form of other libraries. It works using 
 
 The following operating systems and browsers are currently supported:
 
-| Browser | MacOS | Windows | Linux |
-|---------|-------|---------|-------|
-| Chrome  | ✅     | ✅       | ✅     |
+|          | MacOS | Windows | Linux |
+|----------|-------|---------|-------|
+| Chrome   | ✅     | ✅       | ✅     |
+| Chromium | ✅     | ✅       | ✅     |
+| Edge     | ✅     | ✅       | ✅     |
 
 ## Installation
 

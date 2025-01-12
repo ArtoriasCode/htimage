@@ -2,7 +2,11 @@ from subprocess import Popen, PIPE
 from typing import Tuple, Optional
 
 from htimage.utils.enums import Browsers
-from htimage.finders import ChromeFinder
+from htimage.finders import (
+    ChromeFinder,
+    ChromiumFinder,
+    EdgeFinder
+)
 
 
 class Htimage:
@@ -31,6 +35,13 @@ class Htimage:
         """
         if browser == Browsers.CHROME:
             browser_path = ChromeFinder().find_browser()
+
+        elif browser == Browsers.CHROMIUM:
+            browser_path = ChromiumFinder().find_browser()
+
+        elif browser == Browsers.EDGE:
+            browser_path = EdgeFinder().find_browser()
+
         else:
             browser_path = None
 
@@ -40,21 +51,26 @@ class Htimage:
         return browser_path
 
     @staticmethod
-    def _run_command(command: str) -> None:
+    def _run_command(command: str, validation_text: str) -> None:
         """
         Runs the command and kills the process after the first message is displayed.
 
         Parameters:
         - command: Command to run.
+        - validation_text: Validation text.
 
         Returns:
         - None.
         """
         with Popen(command, stdout=PIPE, stderr=PIPE, bufsize=1, universal_newlines=True) as process:
-            any_message = process.stderr.readline()
 
-            if any_message:
-                process.kill()
+            for line in process.stderr:
+                if validation_text in line:
+                    process.kill()
+
+            for line in process.stdout:
+                if validation_text in line:
+                    process.kill()
 
     def from_url(
         self,
@@ -83,7 +99,7 @@ class Htimage:
             url
         )
 
-        self._run_command(command)
+        self._run_command(command, output)
 
     def from_file(
         self,
@@ -112,6 +128,6 @@ class Htimage:
             f"file:///{file}"
         )
 
-        self._run_command(command)
+        self._run_command(command, output)
 
 
