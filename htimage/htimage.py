@@ -14,7 +14,6 @@ class Htimage:
 
     def __init__(self, browser: Browsers):
         self._browser_path = self._get_browser_path(browser)
-        self._command = '{0}:::{1}:::--window-size={2},{3}:::--screenshot={4}:::{5}'
         self._options = [
             "--headless",
             "--hide-scrollbars",
@@ -79,7 +78,7 @@ class Htimage:
         self,
         url: str,
         output: str,
-        size: Tuple[int, int],
+        size: Tuple[int, int]
     ) -> List[str]:
         """
         Generates a screenshot command.
@@ -92,21 +91,20 @@ class Htimage:
         Returns:
         - list: Command parameters.
         """
-        command = self._command.format(
+        dynamic_options = [
             self._browser_path,
-            " ".join(self._options),
-            size[0], size[1],
-            output,
+            f"--window-size={size[0]},{size[1]}",
+            f"--screenshot={output}",
             url
-        )
+        ]
 
-        return command.split(":::") + self._options
+        return dynamic_options + self._options
 
     def from_url(
         self,
         url: str,
         output: str,
-        size: Tuple[int, int],
+        size: Tuple[int, int]
     ) -> None:
         """
         Makes a screenshot of a specified link.
@@ -131,7 +129,7 @@ class Htimage:
         self,
         file: str,
         output: str,
-        size: Tuple[int, int],
+        size: Tuple[int, int]
     ) -> None:
         """
         Makes a screenshot of a specified link.
