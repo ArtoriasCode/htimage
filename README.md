@@ -29,13 +29,14 @@ from htimage import Htimage, Browsers
 
 
 def main() -> None:
-    hti = Htimage()
+    hti = Htimage(
+        browser=Browsers.CHROME
+    )
     
     hti.from_file(
         file="D:/index.html",
         output="D:/image.png",
-        size=(1920, 1080),
-        browser=Browsers.CHROME
+        size=(1920, 1080)
     )
 
 if __name__ == '__main__':
@@ -49,13 +50,14 @@ from htimage import Htimage, Browsers
 
 
 def main() -> None:
-    hti = Htimage()
+    hti = Htimage(
+        browser=Browsers.CHROME
+    )
     
     hti.from_url(
         url="https://github.com/Astagnar",
         output="D:/image.png",
-        size=(1920, 1080),
-        browser=Browsers.CHROME
+        size=(1920, 1080)
     )
 
 if __name__ == '__main__':

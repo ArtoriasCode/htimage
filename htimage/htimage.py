@@ -12,7 +12,8 @@ from htimage.finders import (
 
 class Htimage:
 
-    def __init__(self):
+    def __init__(self, browser: Browsers):
+        self._browser_path = self._get_browser_path(browser)
         self._command = '{0}:::{1}:::--window-size={2},{3}:::--screenshot={4}:::{5}'
         self._options = [
             "--headless",
@@ -79,7 +80,6 @@ class Htimage:
         url: str,
         output: str,
         size: Tuple[int, int],
-        browser: Browsers
     ) -> List[str]:
         """
         Generates a screenshot command.
@@ -88,13 +88,12 @@ class Htimage:
         - url: Site url.
         - output: Output file path.
         - size: Size of the screenshot.
-        - browser: Browser type.
 
         Returns:
         - list: Command parameters.
         """
         command = self._command.format(
-            self._get_browser_path(browser),
+            self._browser_path,
             " ".join(self._options),
             size[0], size[1],
             output,
@@ -108,7 +107,6 @@ class Htimage:
         url: str,
         output: str,
         size: Tuple[int, int],
-        browser: Browsers
     ) -> None:
         """
         Makes a screenshot of a specified link.
@@ -117,7 +115,6 @@ class Htimage:
         - url: Site url.
         - output: Output file path.
         - size: Size of the screenshot.
-        - browser: Browser type.
 
         Returns:
         - None.
@@ -125,8 +122,7 @@ class Htimage:
         command = self._create_command(
             url=url,
             output=output,
-            size=size,
-            browser=browser
+            size=size
         )
 
         self._run_command(command, output)
@@ -136,7 +132,6 @@ class Htimage:
         file: str,
         output: str,
         size: Tuple[int, int],
-        browser: Browsers
     ) -> None:
         """
         Makes a screenshot of a specified link.
@@ -145,7 +140,6 @@ class Htimage:
         - file: HTML file path.
         - output: Output file path.
         - size: Size of the screenshot.
-        - browser: Browser type.
 
         Returns:
         - None.
@@ -153,8 +147,7 @@ class Htimage:
         command = self._create_command(
             url=f"file:///{file}",
             output=output,
-            size=size,
-            browser=browser
+            size=size
         )
 
         self._run_command(command, output)
