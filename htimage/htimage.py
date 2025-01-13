@@ -1,5 +1,6 @@
+from os import kill
 from subprocess import Popen, PIPE
-from typing import Tuple, Optional
+from typing import Tuple, List, Optional
 
 from htimage.utils.enums import Browsers
 from htimage.finders import (
@@ -12,14 +13,15 @@ from htimage.finders import (
 class Htimage:
 
     def __init__(self):
-        self._command = '"{0}" {1} --timeout=5000 --window-size={2},{3} --screenshot="{4}" "{5}"'
+        self._command = '{0}:::{1}:::--window-size={2},{3}:::--screenshot={4}:::{5}'
         self._options = [
             "--headless",
             "--hide-scrollbars",
             "--disable-gpu",
             "--disable-infobars",
             "--disable-extensions",
-            "--disable-blink-features=AutomationControlled"
+            "--disable-blink-features=AutomationControlled",
+            "--timeout=5000"
         ]
 
     @staticmethod
@@ -51,7 +53,7 @@ class Htimage:
         return browser_path
 
     @staticmethod
-    def _run_command(command: str, validation_text: str) -> None:
+    def _run_command(command: List[str], validation_text: str) -> None:
         """
         Runs the command and kills the process after the first message is displayed.
 
@@ -62,7 +64,7 @@ class Htimage:
         Returns:
         - None.
         """
-        with Popen(command, stdout=PIPE, stderr=PIPE, bufsize=1, universal_newlines=True) as process:
+        with Popen(command, shell=False, stdout=PIPE, stderr=PIPE, bufsize=1, universal_newlines=True) as process:
 
             for line in process.stderr:
                 if validation_text in line:
@@ -71,6 +73,35 @@ class Htimage:
             for line in process.stdout:
                 if validation_text in line:
                     process.kill()
+
+    def _create_command(
+        self,
+        url: str,
+        output: str,
+        size: Tuple[int, int],
+        browser: Browsers
+    ) -> List[str]:
+        """
+        Generates a screenshot command.
+
+        Parameters:
+        - url: Site url.
+        - output: Output file path.
+        - size: Size of the screenshot.
+        - browser: Browser type.
+
+        Returns:
+        - list: Command parameters.
+        """
+        command = self._command.format(
+            self._get_browser_path(browser),
+            " ".join(self._options),
+            size[0], size[1],
+            output,
+            url
+        )
+
+        return command.split(":::") + self._options
 
     def from_url(
         self,
@@ -91,12 +122,11 @@ class Htimage:
         Returns:
         - None.
         """
-        command = self._command.format(
-            self._get_browser_path(browser),
-            " ".join(self._options),
-            size[0], size[1],
-            output,
-            url
+        command = self._create_command(
+            url=url,
+            output=output,
+            size=size,
+            browser=browser
         )
 
         self._run_command(command, output)
@@ -120,12 +150,11 @@ class Htimage:
         Returns:
         - None.
         """
-        command = self._command.format(
-            self._get_browser_path(browser),
-            " ".join(self._options),
-            size[0], size[1],
-            output,
-            f"file:///{file}"
+        command = self._create_command(
+            url=f"file:///{file}",
+            output=output,
+            size=size,
+            browser=browser
         )
 
         self._run_command(command, output)
