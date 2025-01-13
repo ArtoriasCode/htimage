@@ -18,7 +18,7 @@ keywords = ["htimage", "html2image", "html", "jpg", "png", "html to image", "htm
 packages = [
     "htimage",
     "htimage.finders",
-    "htimage.finders.abc",
+    "htimage.finders.base",
     "htimage.utils"
 ]
 
