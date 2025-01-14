@@ -6,23 +6,25 @@ from htimage.utils.enums import Browsers
 from htimage.finders import (
     ChromeFinder,
     ChromiumFinder,
-    EdgeFinder
+    EdgeFinder,
+    OperaFinder
 )
 
 
 class Htimage:
 
+    OPTIONS = [
+        "--headless",
+        "--hide-scrollbars",
+        "--disable-gpu",
+        "--disable-infobars",
+        "--disable-extensions",
+        "--disable-blink-features=AutomationControlled",
+        "--timeout=5000"
+    ]
+
     def __init__(self, browser: Browsers):
         self._browser_path = self._get_browser_path(browser)
-        self._options = [
-            "--headless",
-            "--hide-scrollbars",
-            "--disable-gpu",
-            "--disable-infobars",
-            "--disable-extensions",
-            "--disable-blink-features=AutomationControlled",
-            "--timeout=5000"
-        ]
 
     @staticmethod
     def _get_browser_path(browser: Browsers) -> Optional[str]:
@@ -43,6 +45,9 @@ class Htimage:
 
         elif browser == Browsers.EDGE:
             browser_path = EdgeFinder().find_browser()
+
+        elif browser == Browsers.OPERA:
+            browser_path = OperaFinder().find_browser()
 
         else:
             browser_path = None
@@ -98,7 +103,7 @@ class Htimage:
             url
         ]
 
-        return dynamic_options + self._options
+        return dynamic_options + self.OPTIONS
 
     def from_url(
         self,
@@ -149,5 +154,3 @@ class Htimage:
         )
 
         self._run_command(command, output)
-
-

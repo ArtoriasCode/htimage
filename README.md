@@ -9,6 +9,7 @@ The following operating systems and browsers are currently supported:
 | Chrome   | ✅     | ✅       | ✅     |
 | Chromium | ✅     | ✅       | ✅     |
 | Edge     | ✅     | ✅       | ✅     |
+| Opera    | ✅     | ✅       | ✅     |
 
 ## Installation
 

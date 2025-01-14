@@ -76,10 +76,10 @@ class BaseFinder:
         for hive in (winreg.HKEY_CURRENT_USER, winreg.HKEY_LOCAL_MACHINE):
             try:
                 reg_key = winreg.OpenKey(hive, self.WIN_REG_PATH, 0, winreg.KEY_READ)
-                potential_path = winreg.QueryValue(reg_key, None)
+                potential_path = winreg.QueryValue(reg_key, None).strip('"').strip('\'')
                 reg_key.Close()
 
-                if path.isfile(potential_path):
+                if path.exists(potential_path):
                     chrome_path = potential_path
                     break
             except OSError:
