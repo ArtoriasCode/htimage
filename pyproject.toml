@@ -8,7 +8,7 @@ version = "0.1.0"
 requires-python = ">= 3.6"
 description = "Lightweight library for creating HTML file and web page images based on installed browsers. "
 authors = [
-    { name = "Astagnar" }
+    { name = "ArtoriasCode" }
 ]
 license = { text = "Apache-2.0" }
 readme = "README.md"
@@ -23,6 +23,6 @@ packages = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/Astagnar/htimage"
-Repository = "https://github.com/Astagnar/htimage"
-Issues = "https://github.com/Astagnar/htimage/issues"
+Homepage = "https://github.com/ArtoriasCode/htimage"
+Repository = "https://github.com/ArtoriasCode/htimage"
+Issues = "https://github.com/ArtoriasCode/htimage/issues"

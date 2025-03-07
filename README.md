@@ -18,7 +18,7 @@ The following operating systems and browsers are currently supported:
 Run the following command:
 
 ```bash
-pip install git+https://github.com/Astagnar/htimage.git
+pip install git+https://github.com/ArtoriasCode/htimage.git
 ```
 
 ## Examples
@@ -56,7 +56,7 @@ def main() -> None:
     )
     
     hti.from_url(
-        url="https://github.com/Astagnar",
+        url="https://github.com/ArtoriasCode",
         output="D:/image.png",
         size=(1920, 1080)
     )
